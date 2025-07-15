@@ -1,12 +1,12 @@
 // 패키지 선언
-package mtmt.MTMT_BE.domain.user.entity;
+package mtmt.MTMT_BE.domain.user.domain;
 
 // 임포트
 import jakarta.persistence.*;
 import lombok.*;
-import mtmt.MTMT_BE.domain.user.entity.type.Gender;
-import mtmt.MTMT_BE.domain.user.entity.type.Location;
-import mtmt.MTMT_BE.domain.user.entity.type.Role;
+import mtmt.MTMT_BE.domain.user.domain.type.Gender;
+import mtmt.MTMT_BE.domain.user.domain.type.Location;
+import mtmt.MTMT_BE.domain.user.domain.type.Role;
 
 @Entity // 데이터 베이스에 테이블과 1대1 매핑되는 엔티티로써 클래스를 지정하기 위한 어노테이션
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자 선언  JPA 엔티티는 기본생성자를 필수로 함 (프록시 + 리플렉션 위해서)

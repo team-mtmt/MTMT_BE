@@ -1,4 +1,4 @@
-package mtmt.MTMT_BE.domain.user.entity.type;
+package mtmt.MTMT_BE.domain.user.domain.type;
 
 public enum Gender {
     MALE,
