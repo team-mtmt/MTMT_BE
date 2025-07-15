@@ -1,3 +1,5 @@
+// User SignUp Service를 auth 도메인 하위에 두는 이유?: user 도메인은 조금 더 user와 관련된 책임(마이페이지 조회 등을 담당)
+// auth 도메인은 회원가입 부터 로그인, 탈퇴 등의 계정과 관련된 책임을 담당
 package mtmt.MTMT_BE.domain.auth.application;
 
 import lombok.RequiredArgsConstructor;

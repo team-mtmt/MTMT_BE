@@ -13,6 +13,7 @@ import mtmt.MTMT_BE.domain.user.domain.type.Role;
 // AccessLevel.PROTECTED는, 기본 생성자의 접근 제어자를 protected로 설정함. 불필요한 객체 생성 방지
 @AllArgsConstructor // @Builder 사용을 위한 모든 필드를 인자로 받는 생성자 생성
 @Builder // Builder 패턴 코드 자동 생성
+@Getter // Get 메서드 자동생성 (But, 상황에 따라서 지'양' 해야함)
 public class User {
 
     @Id // 해당 엔티티의 기본키로 지정
