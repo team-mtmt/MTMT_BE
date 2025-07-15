@@ -1,4 +1,4 @@
-package mtmt.MTMT_BE.domain.user.application;
+package mtmt.MTMT_BE.domain.auth.application;
 
 import lombok.RequiredArgsConstructor;
 import mtmt.MTMT_BE.domain.user.domain.UserRepository;
