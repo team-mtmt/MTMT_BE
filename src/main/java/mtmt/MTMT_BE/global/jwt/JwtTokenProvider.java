@@ -1,6 +1,6 @@
 package mtmt.MTMT_BE.global.jwt;
 
-import mtmt.MTMT_BE.domain.auth.domain.RefreshToken;
+import mtmt.MTMT_BE.domain.auth.domain.entity.RefreshToken;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package mtmt.MTMT_BE.global.security;
 
 import lombok.RequiredArgsConstructor;
-import mtmt.MTMT_BE.domain.user.domain.User;
+import mtmt.MTMT_BE.domain.user.domain.entity.User;
 import mtmt.MTMT_BE.domain.user.domain.type.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

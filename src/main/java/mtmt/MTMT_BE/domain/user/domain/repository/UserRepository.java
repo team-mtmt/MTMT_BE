@@ -1,5 +1,6 @@
-package mtmt.MTMT_BE.domain.user.domain;
+package mtmt.MTMT_BE.domain.user.domain.repository;
 
+import mtmt.MTMT_BE.domain.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

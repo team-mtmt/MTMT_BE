@@ -1,4 +1,4 @@
-package mtmt.MTMT_BE.domain.auth.domain;
+package mtmt.MTMT_BE.domain.auth.domain.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

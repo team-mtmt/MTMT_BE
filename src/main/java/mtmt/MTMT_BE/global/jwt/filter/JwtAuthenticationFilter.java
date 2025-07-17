@@ -1,4 +1,4 @@
-package mtmt.MTMT_BE.global.jwt;
+package mtmt.MTMT_BE.global.jwt.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mtmt.MTMT_BE.global.jwt.JwtTokenProvider;
 import mtmt.MTMT_BE.global.security.CustomUserDetailService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

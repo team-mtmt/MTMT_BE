@@ -1,8 +1,8 @@
 package mtmt.MTMT_BE.global.security;
 
 import lombok.RequiredArgsConstructor;
-import mtmt.MTMT_BE.domain.user.domain.User;
-import mtmt.MTMT_BE.domain.user.domain.UserRepository;
+import mtmt.MTMT_BE.domain.user.domain.entity.User;
+import mtmt.MTMT_BE.domain.user.domain.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

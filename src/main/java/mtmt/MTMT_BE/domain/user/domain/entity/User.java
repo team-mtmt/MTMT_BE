@@ -1,5 +1,5 @@
 // 패키지 선언
-package mtmt.MTMT_BE.domain.user.domain;
+package mtmt.MTMT_BE.domain.user.domain.entity;
 
 // 임포트
 import jakarta.persistence.*;

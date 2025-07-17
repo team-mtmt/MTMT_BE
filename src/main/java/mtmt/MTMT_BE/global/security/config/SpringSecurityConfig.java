@@ -1,7 +1,7 @@
-package mtmt.MTMT_BE.global.security;
+package mtmt.MTMT_BE.global.security.config;
 
 import lombok.RequiredArgsConstructor;
-import mtmt.MTMT_BE.global.jwt.JwtAuthenticationFilter;
+import mtmt.MTMT_BE.global.jwt.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
