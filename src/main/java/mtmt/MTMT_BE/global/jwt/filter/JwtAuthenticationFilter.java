@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mtmt.MTMT_BE.global.exception.domain.auth.UnauthorizedException;
 import mtmt.MTMT_BE.global.jwt.JwtTokenProvider;
 import mtmt.MTMT_BE.global.security.CustomUserDetailService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,30 +40,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = getJwtFromRequest(request); // jwt를 요청으로부터 추출해홈
 
-        // jwt가 null이 아니고, jwt가 유효한 토큰이면 조건문 실행
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            String username = tokenProvider.getUsernameFromToken(jwt); // username을 jwt 로부터 추출
-            String tokenType = tokenProvider.getTokenType(jwt); // tokenType(access, refresh)을 jwt로 부터 추출
+        // jwt가 validate를 통과하지 못하면 유효하지 않은 jwt 이므로, 예외 발생
+        if (!tokenProvider.validateToken(jwt)) throw new UnauthorizedException("Invalid JWT token");
 
-            // 엑세스 토큰이라면 조건문 실행
-            if ("ACCESS".equals(tokenType)) {
-                // UserDetails를 username 기반으로 객체 생성
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        String username = tokenProvider.getUsernameFromToken(jwt); // username을 jwt 로부터 추출
+        String tokenType = tokenProvider.getTokenType(jwt); // tokenType(access, refresh)을 jwt로 부터 추출
 
-                // userDetails가 null이 아니라면
-                if (userDetails != null) {
-                    // UsernamePasswordAuthenticationToken: UserDetails 객체를 기반으로 사용자를 인증하는 Spring Security 클래스
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        // 엑세스 토큰이라면 조건문 실행
+        if ("ACCESS".equals(tokenType)) {
+            // UserDetails를 username 기반으로 객체 생성
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-                    // request의 IP, 세션, 사용자 정보 등을 Authentication 객체에 포함
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            // userDetails가 null 이면 jwt에 담긴 Username이 잘못된 것 이므로, 예외 발생
+            if (userDetails == null) throw new UnauthorizedException("User not found for JWT token");
 
-                    // Spring Security에 authentication을 인증 객체로 등록
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            }
+            // UsernamePasswordAuthenticationToken: UserDetails 객체를 기반으로 사용자를 인증하는 Spring Security 클래스
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            // request의 IP, 세션, 사용자 정보 등을 Authentication 객체에 포함
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+            // Spring Security에 authentication을 인증 객체로 등록
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+
 
         // filterChain에 등록된 다음 필터 호출.
         filterChain.doFilter(request, response);
@@ -72,10 +74,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization"); // jwt가 담긴 헤더인 Authorization을 request로 부터 추출해옴
 
-        // bearerToken이 Null이 아니고, bearerToken이 "Bearer "(prefix)로 시작한다면 조건문 실행
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7); // bearerToken의 7번째 인덱스 전까지 string을 잘라서 반환
+        // bearerToken이 Null 이라면 예외 발생
+        if (!StringUtils.hasText(bearerToken)) {
+            throw new UnauthorizedException("Authorization header is missing");
         }
-        return null; // 조건문 불통과시 null 반환
+
+        // bearerToken이 "Bearer "(prefix)로 시작하지 않는다면 예외 발생
+        if (!bearerToken.startsWith("Bearer ")) {
+            throw new UnauthorizedException("Authorization header must start with 'Bearer '");
+        }
+
+        // "Bearer "(prefix)를 jwt 에서 제외시킨 형식으로 오직 jwt 만을 반환
+        return bearerToken.substring(7);
     }
 }
