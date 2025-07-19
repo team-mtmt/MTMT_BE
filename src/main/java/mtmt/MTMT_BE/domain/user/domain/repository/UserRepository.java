@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Optional 이란?: 특정 객체가 Null이 될 수 있음을 허용(null-safe)
     Optional<User> findByEmail(String email);
+
+    // boolean 값으로 조건에 따른 행이 있는지 찾는 메서드. 실제 JPA 에서 날리는 쿼리는 COUNT(*) SELECT ~ 이런 형식임. 행이 하나라도 존재하면 True, 아니면 False
+    boolean existsByEmail(String email);
 }

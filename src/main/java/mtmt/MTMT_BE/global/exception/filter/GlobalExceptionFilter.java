@@ -38,10 +38,12 @@ public class GlobalExceptionFilter extends OncePerRequestFilter {
     private void sendErrorResponse(HttpServletResponse response, HttpStatus status, String message) throws IOException {
         response.setStatus(status.value()); // status를 int 값인 status.value()로 설정
         response.setContentType("application/json"); // Content type을 json 형식으로 설정
+        response.setCharacterEncoding("UTF-8"); // 문자열 인코딩을 UTF-8 방식으로 설정
 
         ApiResponse<?> errorBody = ApiResponse.error(status.value(), message); // error 작성
         String json = objectMapper.writeValueAsString(errorBody); // errorBody를 json 문자열로 변환
 
         response.getWriter().write(json); // response에 write
+        response.getWriter().flush();
     }
 }

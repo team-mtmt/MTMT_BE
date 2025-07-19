@@ -15,10 +15,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 
 @Component // Spring Bean 으로 등록
@@ -30,6 +32,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider tokenProvider; // JwtTokenProvider Bean 주입
     private final CustomUserDetailService userDetailsService; // CustomUserDetailService Bean 주입
+    private final AntPathMatcher pathMatcher = new AntPathMatcher(); // url 이나 파일 경로가 일치하는 확인하는 Matcher
+
+    // Jwt 인증이 필요없는 api end point들(화이트 리스트)
+    private static final String[] PERMITTED_PATHS = {
+            "/auth/signup",
+            "/health",
+    };
+
+    // Filtering 되면 안되는 작업들을 설정하는 메서드
+    // Spring Security Config 에서 authorizeHttpRequests를 설정하는 방법도 있지만, 해당 방법과 이 방법의 각각 차이점과 장단점이 존재함. 공부해보면 좋을 듯
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        String method = request.getMethod();
+
+        // OPTIONS 요청은 CORS preflight 이므로 필터링 제외
+        if ("OPTIONS".equals(method)) {
+            return true;
+        }
+
+        // 명시적으로 허용된 경로만 제외
+        return Arrays.stream(PERMITTED_PATHS)
+                .anyMatch(pattern -> pathMatcher.match(pattern, path));
+    }
+
 
     // 수행하고 싶은 필터 작업을 수행할 수 있또록 하는 메서드
     @Override
