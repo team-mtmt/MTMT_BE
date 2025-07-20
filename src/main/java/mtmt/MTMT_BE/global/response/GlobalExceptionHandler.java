@@ -6,6 +6,7 @@ import mtmt.MTMT_BE.global.exception.utils.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -24,6 +25,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<String>> handleGeneralException(Exception ex) {
         ApiResponse<String> response = ApiResponse.error(500, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    // AuthenticationException을 별도로 처리
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponse<String>> handleAuthenticationExceptions(Exception ex) {
+        String message = "UnAuthenticationException user : " + ex.getMessage();
+        ApiResponse<String> response = ApiResponse.error(401, message);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     // HttpMessageNotReadableException: HTTP Body가 잘못된 형식일때 발생하는 예외

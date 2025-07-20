@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Builder
 @RedisHash // RedisHash: 해당 어노테이션이 등록된 클래스를 Redis Entity로 등록 시킴
 public class RefreshToken {

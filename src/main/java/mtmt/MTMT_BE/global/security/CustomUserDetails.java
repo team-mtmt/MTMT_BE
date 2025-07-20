@@ -61,6 +61,8 @@ public class CustomUserDetails implements UserDetails {
     }
 
     // 추가 정보 접근용 커스텀 메서드
+    public String getName() { return user.getName(); }
+
     public Long getId() {
         return user.getId();
     }

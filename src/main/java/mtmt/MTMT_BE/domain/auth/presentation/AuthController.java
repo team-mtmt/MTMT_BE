@@ -3,12 +3,16 @@ package mtmt.MTMT_BE.domain.auth.presentation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
+import mtmt.MTMT_BE.domain.auth.application.dto.login.LoginRequest;
+import mtmt.MTMT_BE.domain.auth.application.dto.login.LoginResponse;
 import mtmt.MTMT_BE.domain.auth.application.dto.signup.MenteeSignUpRequest;
 import mtmt.MTMT_BE.domain.auth.application.dto.signup.MentorSignUpRequest;
 import mtmt.MTMT_BE.domain.auth.application.dto.signup.SignUpRequest;
 import mtmt.MTMT_BE.domain.auth.application.dto.signup.SignUpResponse;
+import mtmt.MTMT_BE.domain.auth.application.service.UserLoginService;
 import mtmt.MTMT_BE.domain.auth.application.service.UserSignUpService;
 import mtmt.MTMT_BE.global.exception.domain.user.InvalidRoleException;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +29,8 @@ import java.util.Set;
 public class AuthController {
 
     private final UserSignUpService userSignUpService;
+
+    private final UserLoginService userLoginService;
 
     // 값 검증을 위해 Validator 의존성 주입
     private final Validator validator;
@@ -54,5 +60,10 @@ public class AuthController {
             throw new ConstraintViolationException(violations); // ConstraintViolationException 발생 -> 이후 GlobalExceptionHandler 에서 처리
 
         return userSignUpService.signUp(request, role.toLowerCase()); // service에 request 와 role을 위임하여 메서드 실행
+    }
+
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody @Valid LoginRequest loginRequest) {
+        return userLoginService.login(loginRequest);
     }
 }

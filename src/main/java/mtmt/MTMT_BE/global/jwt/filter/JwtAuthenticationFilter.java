@@ -37,6 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // Jwt 인증이 필요없는 api end point들(화이트 리스트)
     private static final String[] PERMITTED_PATHS = {
             "/auth/signup",
+            "/auth/login",
             "/health",
     };
 
