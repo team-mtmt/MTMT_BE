@@ -24,15 +24,35 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Spring Boot Starter
+	implementation 'org.springframework.boot:spring-boot-starter-web'               // Spring MVC (REST API, Controller 등)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'          // Spring Data JPA (Hibernate 기반 ORM)
+	implementation 'org.springframework.boot:spring-boot-starter-security'          // Spring Security (인증/인가 기능)
+	implementation 'org.springframework.boot:spring-boot-starter-validation'        // Bean Validation (javax.validation, @Valid 등)
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'        // Redis 연결 (캐시, 세션 관리 등)
+
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'        // OpenAPI 3 기반 Swagger UI 자동화
+
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'                                 // JWT 생성 및 파싱 API
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'                                   // JWT 내부 구현체
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'                                // JWT JSON 직렬화/역직렬화 (Jackson 기반)
+
+	// MySQL Driver
+	runtimeOnly 'com.mysql:mysql-connector-j'                                        // MySQL JDBC 드라이버
+
+	// Testing
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'          // JUnit, Mockito 포함된 테스트 스타터
+	testImplementation 'org.springframework.security:spring-security-test'          // Spring Security 테스트 유틸리티 (Mock 인증 등)
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'                    // JUnit Platform 런처 (테스트 실행기)
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'                                           // 컴파일 시점에만 필요한 Lombok (Getter/Setter 등 생성)
+	annotationProcessor 'org.projectlombok:lombok'                                   // Lombok을 위한 Annotation Processor 설정
+
+	// ETC
+	implementation 'org.apache.commons:commons-lang3:3.18.0'                         // Apache Commons Lang (문자열, 날짜 등 유틸리티)
 }
 
 tasks.named('test') {
