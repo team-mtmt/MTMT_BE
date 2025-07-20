@@ -1,6 +1,5 @@
 package mtmt.MTMT_BE.domain.auth.application.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mtmt.MTMT_BE.domain.auth.application.dto.login.LoginRequest;
 import mtmt.MTMT_BE.domain.auth.application.dto.login.LoginResponse;
@@ -13,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

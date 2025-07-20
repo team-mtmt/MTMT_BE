@@ -20,6 +20,7 @@ import mtmt.MTMT_BE.global.exception.domain.user.EmailAlreadyExistsException;
 import mtmt.MTMT_BE.global.exception.domain.user.InvalidRoleException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +38,9 @@ public class UserSignUpService {
 
     private final PasswordEncoder passwordEncoder;
 
+    // @Transactional 어노테이션: 데이터베이스 I/O 가 있는 작업일 때, 트랜잭션이 수행됨
+    // 트랜잭션이란?: ACID 특성을 보유하는 데이터에베이스의 작업 단위
+    @Transactional
     public SignUpResponse signUp(SignUpRequest signUpRequest, String role) {
         // Role에 따라 회원가입 로직 구분
         switch (role) {
