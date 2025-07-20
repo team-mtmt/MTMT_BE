@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
@@ -36,6 +37,14 @@ public class ApiResponseWrapper implements ResponseBodyAdvice<Object> {
                                   @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   @NonNull ServerHttpRequest request,
                                   @NonNull ServerHttpResponse response) {
+
+        // Swagger 관련 Response는 ApiResponse로 파싱하면 안됨
+        if (request instanceof ServletServerHttpRequest servletRequest) {
+            String path = servletRequest.getServletRequest().getRequestURI();
+            if (path.contains("/v3/api-docs") || path.contains("/swagger") || path.contains("/swagger-ui")) {
+                return body;
+            }
+        }
 
         // instanceof 연산자: instanceof 예약어 왼쪽에 명시된 객체가 오른쪽 클래스의 인스턴스인지 확인하는 연산자
         if (body instanceof ApiResponse) {

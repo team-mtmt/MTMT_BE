@@ -39,6 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/auth/signup",
             "/auth/login",
             "/health",
+            "/swagger-ui/**",
+            "/v3/api-docs/**"
     };
 
     // Filtering 되면 안되는 작업들을 설정하는 메서드
